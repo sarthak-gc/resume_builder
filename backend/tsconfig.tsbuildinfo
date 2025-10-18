@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/controllers/index.ts","./src/routes/index.ts","./src/routes/user.routes.ts","./src/services/index.ts","./src/utils/index.ts","./src/utils/scrape.ts"],"version":"5.7.2"}
