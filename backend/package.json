@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@google/genai": "^1.25.0",
+    "@octokit/rest": "^22.0.0",
     "@prisma/client": "^6.17.1",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.3",
