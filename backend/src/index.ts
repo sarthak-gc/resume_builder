@@ -1,9 +1,11 @@
 import express from "express";
 import router from "./routes";
+import { envConfig } from "./utils/config";
 
 const app = express();
 
-const PORT = process.env.PORT || 8888;
+const PORT = envConfig.PORT || 8888;
+
 app.use(express.json());
 app.use(router);
 

@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import { Response } from "express";
 import puppeteer, { Browser } from "puppeteer";
 import { ReturnDetails } from "../types/scrape";
+import { envConfig } from "./config";
 import sendJsonResponse from "./response";
 import { StatusCode } from "./statusCodes";
 config();
@@ -17,7 +18,8 @@ interface repoDetailsI {
   default_branch: string;
   popular: boolean;
 }
-export const githubScrape = async (res: Response, url: string) => {
+export const githubScrape = async (res: Response, username: string) => {
+  const url = `https://www.github.com/${username}`;
   const githubProfile = await checkGitHubProfile(url);
   if (!githubProfile.exists) {
     sendJsonResponse(res, StatusCode.NOT_FOUND, false, githubProfile.msg);
@@ -210,7 +212,7 @@ export async function scrapeGitHubProfile(browser: Browser, url: string) {
 
 export async function getRepos(res: Response, url: string) {
   const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN,
+    auth: envConfig.GITHUB_TOKEN,
   });
 
   const username = url.split("/")[url.split("/").length - 1];
@@ -267,7 +269,7 @@ export async function getRepos(res: Response, url: string) {
 
 export async function getPathTrees(res: Response, repo: repoDetailsI) {
   const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN,
+    auth: envConfig.GITHUB_TOKEN,
   });
 
   const files = await octokit.rest.git.getTree({
@@ -295,7 +297,7 @@ export async function getPackageContents(
   repo: { allPackageJsonPaths: string[]; repoName: string; owner: string }
 ) {
   const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN,
+    auth: envConfig.GITHUB_TOKEN,
   });
 
   let packages = repo.allPackageJsonPaths.map(async (path) => {

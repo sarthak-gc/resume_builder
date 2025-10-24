@@ -17,6 +17,7 @@ model User {
 
   personalWebsite String?
   githubProfile   String?
+  // latestRepo String? // if the last repo is unchanged that means nothing new is there, so no need to further call the api
   // linkedinProfile String?
   // leetcodeProfile String?
   // codechefProfile String?

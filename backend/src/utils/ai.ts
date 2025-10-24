@@ -1,10 +1,11 @@
 import { GoogleGenAI } from "@google/genai";
 import { config } from "dotenv";
+import { envConfig } from "./config";
 config();
 // The client gets the API key from the environment variable ``.
 const ai = new GoogleGenAI({
   googleAuthOptions: {
-    apiKey: process.env.GEMINI_API_KEY,
+    apiKey: envConfig.GEMINI_API_KEY,
   },
 });
 
@@ -26,7 +27,7 @@ export async function callAi(packages: string[]) {
        - "Development Tools"
        - "Build Tools"
        - "Styling"
-    4. Return the result as a plain stringified JSON (not markdown). The JSON should have a single key "skills", which is an array of unique skills, sorted alphabetically.
+    4. Return the result as a plain stringified JSON (not markdown). The JSON should have a single key "skills", which is an object of unique skills, categorized into multiple technology type (e.g., Frontend, Backend, Data Science).
     5. Skills should be specific, tangible, and relevant to what the package provides, **without assuming code context** and worth keeping in the resume for the skills section for the role that you feel like the person is capable of while analyzing the packages from the project.
     6. If you are unsure if a thing belongs there or not, that means it doesn't belong there. Don't add things just to make it bigger
     7. Again, Only return things that are worth adding for a mid-to-senior level engineer role. If you only find few out of those many that is given, its fine, just include those that are worth adding in resume. Please keep this in mind. And packages that does all the task on their own, and where the task of the user is just to add and call some in built functions, are not worth keeping in the resume.
@@ -34,8 +35,12 @@ export async function callAi(packages: string[]) {
     Input :
     ${packages.toLocaleString()}
     Output format:
-    The output should be in the following structure:
-      "skills": ["skill1", "skill2", "skill3", ...]
+    skills: {
+      technology type: [skill1, skill2],
+      technology type: [skill3, skill4]
+    }
+
+
 
     Important Notes:
     - Ensure that all skills are unique across all the packages.
